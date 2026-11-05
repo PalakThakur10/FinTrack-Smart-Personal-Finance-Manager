@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FINTRACK — Smart Personal Finance Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      text-align: center;
+      position: relative;
+      background: radial-gradient(circle at 50% 20%, rgba(99, 102, 241, 0.15) 0%, rgba(11, 15, 25, 0) 60%);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #a5b4fc;
+      margin-bottom: 24px;
+    }
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      max-width: 860px;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 40%, #c7d2fe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 640px;
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+    .cta-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1080px;
+      margin-top: 64px;
+      text-align: left;
+    }
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.4rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hero-section">
+    <div class="hero-badge">
+      <span>⚡</span> C++ OOPS &amp; MongoDB University Full-Stack Mini Project
+    </div>
+    <h1 class="hero-title">Take Smart Control of Your Financial Future</h1>
+    <p class="hero-desc">
+      FINTRACK delivers real-time budgeting, cashflow forecasting, automated savings tracking, and polymorphic financial computation powered by high-performance C++ backend architecture.
+    </p>
+
+    <div class="cta-group">
+      <a href="/pages/dashboard.html" class="btn btn-primary" style="padding: 14px 28px; font-size: 1rem;">
+        Launch Finance Dashboard &rarr;
+      </a>
+      <a href="/login.html" class="btn btn-secondary" style="padding: 14px 28px; font-size: 1rem;">
+        Sign In / Demo Login
+      </a>
+    </div>
+
+    <div class="feature-grid">
+      <div class="card">
+        <div style="font-size: 2rem; margin-bottom: 12px;">📈</div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">Dynamic Polymorphism</h3>
+        <p class="text-secondary" style="font-size: 0.88rem;">
+          Transaction hierarchy with abstract base class overriding <code style="color: #a5b4fc;">calculateImpact()</code> across polymorphic Income and Expense models.
+        </p>
+      </div>
+
+      <div class="card">
+        <div style="font-size: 2rem; margin-bottom: 12px;">🛡️</div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">MongoDB Storage</h3>
+        <p class="text-secondary" style="font-size: 0.88rem;">
+          Durable persistence storing users, transactions, category budgets, and savings goals with full user data isolation and strict schema validation.
+        </p>
+      </div>
+
+      <div class="card">
+        <div style="font-size: 2rem; margin-bottom: 12px;">⚡</div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">Crow C++ REST Engine</h3>
+        <p class="text-secondary" style="font-size: 0.88rem;">
+          Blazing-fast asynchronous REST APIs serving Chart.js analytical dashboards, budget alerts, and executive financial reports.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>
+

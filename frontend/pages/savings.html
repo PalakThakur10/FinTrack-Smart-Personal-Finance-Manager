@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savings Goals — FINTRACK Personal Finance System</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <div class="sidebar-overlay"></div>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">FT</div>
+        <div class="brand-text">FINTRACK</div>
+        <span class="brand-badge">OOPS</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-label">Main Menu</div>
+        <a href="dashboard.html" class="nav-link"><span>📊</span><span>Dashboard</span></a>
+        <a href="transactions.html" class="nav-link"><span>💳</span><span>Transactions</span></a>
+        <a href="income.html" class="nav-link"><span>📈</span><span>Income</span></a>
+        <a href="expenses.html" class="nav-link"><span>📉</span><span>Expenses</span></a>
+
+        <div class="nav-label">Planning &amp; Goals</div>
+        <a href="budgets.html" class="nav-link"><span>⚖️</span><span>Budgets</span></a>
+        <a href="savings.html" class="nav-link active"><span>🎯</span><span>Savings Goals</span></a>
+
+        <div class="nav-label">Insights &amp; System</div>
+        <a href="analytics.html" class="nav-link"><span>📉</span><span>Analytics</span></a>
+        <a href="reports.html" class="nav-link"><span>📑</span><span>Reports</span></a>
+        <a href="settings.html" class="nav-link"><span>⚙️</span><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="avatar user-avatar-display">A</div>
+          <div class="user-info">
+            <span class="user-name user-name-display">Alex Mercer</span>
+            <span class="user-email user-email-display">demo@fintrack.com</span>
+          </div>
+        </div>
+        <button class="btn-logout" id="logoutBtn" title="Logout"><span>🚪</span></button>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div style="display: flex; align-items: center;">
+          <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+          <div class="page-title-box">
+            <h1>Savings Goals</h1>
+            <p>Set targets for milestones, emergencies, and investments.</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn btn-primary" id="openAddGoalBtn">
+            <span>+</span>
+            <span>New Savings Target</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- Savings Overview Banner -->
+        <div class="card" style="margin-bottom: 24px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(99, 102, 241, 0.05) 100%);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <h2 style="font-size: 1.25rem; font-weight: 800; color: #ffffff;">Target Milestones</h2>
+              <p class="text-secondary" style="font-size: 0.85rem;">Track progress and deposit funds toward your long-term goals.</p>
+            </div>
+            <div style="display: flex; gap: 24px;">
+              <div>
+                <div class="text-muted" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Total Saved</div>
+                <div class="mono" id="totalSavingsAccumulated" style="font-size: 1.4rem; font-weight: 800; color: #34d399;">₹93,000</div>
+              </div>
+              <div>
+                <div class="text-muted" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Combined Goal Target</div>
+                <div class="mono" id="totalSavingsTarget" style="font-size: 1.4rem; font-weight: 800; color: #ffffff;">₹1,70,000</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Savings Cards Grid -->
+        <div class="savings-grid" id="savingsContainer">
+          <!-- Dynamically populated from C++ backend -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal: Create / Edit Savings Goal -->
+  <div class="modal-overlay" id="savingsGoalModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="goalModalTitle">New Savings Goal</h3>
+        <button class="modal-close" id="closeGoalModal">&times;</button>
+      </div>
+
+      <form id="savingsGoalForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="goalName">Goal Name</label>
+            <input type="text" id="goalName" class="form-control" placeholder="e.g. New Laptop or Emergency Fund" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="goalTargetAmount">Target Amount (₹)</label>
+            <input type="number" id="goalTargetAmount" class="form-control" placeholder="e.g. 80000" min="500" step="100" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="goalCurrentAmount">Current Saved (₹)</label>
+            <input type="number" id="goalCurrentAmount" class="form-control" placeholder="0.00" min="0" step="100">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="goalTargetDate">Target Date</label>
+            <input type="date" id="goalTargetDate" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="goalCategory">Goal Category</label>
+            <select id="goalCategory" class="form-control">
+              <option value="Electronics">Electronics &amp; Hardware</option>
+              <option value="Safety">Safety &amp; Emergency Buffer</option>
+              <option value="Gadgets">Gadgets &amp; Phones</option>
+              <option value="Travel">Vacation &amp; Travel</option>
+              <option value="Vehicle">Vehicle &amp; Automobile</option>
+              <option value="General">General Savings</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelGoalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Goal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Quick Add Money -->
+  <div class="modal-overlay" id="addMoneyModal">
+    <div class="modal-box" style="max-width: 420px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Deposit to Goal</h3>
+        <button class="modal-close" id="closeDepositModal">&times;</button>
+      </div>
+
+      <form id="addMoneyForm">
+        <div class="modal-body">
+          <p class="text-secondary" style="font-size: 0.88rem; margin-bottom: 16px;">
+            Adding savings deposit to: <strong style="color: #ffffff;" id="depositGoalNameDisplay">Emergency Fund</strong>
+          </p>
+
+          <div class="form-group">
+            <label class="form-label" for="depositAmount">Amount to Deposit (₹)</label>
+            <input type="number" id="depositAmount" class="form-control" placeholder="e.g. 5000" min="1" step="10" required autofocus>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelDepositBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Confirm Deposit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/savings.js"></script>
+</body>
+</html>
+

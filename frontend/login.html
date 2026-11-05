@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — FINTRACK Finance System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .auth-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: radial-gradient(circle at 50% 10%, rgba(99, 102, 241, 0.12) 0%, rgba(11, 15, 25, 1) 70%);
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      box-shadow: var(--shadow-lg);
+    }
+    .auth-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .demo-box {
+      margin-top: 20px;
+      padding: 14px 16px;
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px dashed rgba(99, 102, 241, 0.35);
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+    }
+    .offline-banner {
+      display: none;
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: #fbbf24;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-logo-row">
+        <div style="width: 44px; height: 44px; background: var(--accent-gradient); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3rem; color: #ffffff;">
+          FT
+        </div>
+        <div>
+          <h2 style="font-size: 1.35rem; font-weight: 800; color: #ffffff;">FINTRACK</h2>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">Smart Personal Finance System</div>
+        </div>
+      </div>
+
+      <div class="offline-banner" id="offlineBanner">
+        ⚡ Running in <strong>Demo Mode</strong> — C++ server not detected. All features work with built-in data.
+      </div>
+
+      <h1 style="font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-bottom: 6px;">Welcome Back</h1>
+      <p class="text-secondary" style="font-size: 0.88rem; margin-bottom: 24px;">Enter your credentials to access your personal dashboard.</p>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <input type="email" id="email" class="form-control" placeholder="name@domain.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input type="password" id="password" class="form-control" placeholder="Enter password" required autocomplete="current-password">
+        </div>
+
+        <div id="errorMsg" style="display:none; color:#f87171; font-size:0.84rem; margin-bottom:10px; padding:8px 12px; background:rgba(239,68,68,0.1); border-radius:6px;"></div>
+
+        <button type="submit" class="btn btn-primary" id="loginBtn" style="width: 100%; padding: 12px; margin-top: 8px;">
+          Sign In to FinTrack
+        </button>
+      </form>
+
+      <div class="demo-box">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <strong style="color: #a5b4fc;">Demo Project Credentials</strong>
+          <button type="button" class="btn btn-secondary btn-sm" id="fillDemoBtn" style="padding: 4px 8px; font-size: 0.72rem;">Autofill</button>
+        </div>
+        <div class="text-muted" style="font-size: 0.78rem;">
+          Email: <span class="mono" style="color: #ffffff;">demo@fintrack.com</span><br>
+          Password: <span class="mono" style="color: #ffffff;">Demo@123</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px; text-align: center; font-size: 0.85rem;" class="text-secondary">
+        Don't have an account? <a href="register.html" style="color: var(--accent-primary); font-weight: 600;">Create an Account</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script>
+    // Detect if server is reachable
+    async function checkServer() {
+      try {
+        const ctrl = new AbortController();
+        setTimeout(() => ctrl.abort(), 2000);
+        await fetch('/api/dashboard', { signal: ctrl.signal });
+      } catch {
+        document.getElementById('offlineBanner').style.display = 'block';
+      }
+    }
+    checkServer();
+
+    document.getElementById('fillDemoBtn').addEventListener('click', () => {
+      document.getElementById('email').value = 'demo@fintrack.com';
+      document.getElementById('password').value = 'Demo@123';
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('loginBtn');
+      const errDiv = document.getElementById('errorMsg');
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      btn.textContent = 'Signing in...';
+      btn.disabled = true;
+      errDiv.style.display = 'none';
+
+      try {
+        const data = await FinTrackAPI.post('/api/auth/login', { email, password });
+        if (data.token || data.status === 'success') {
+          FinTrackAPI.setToken(data.token || 'session-token');
+          FinTrackAPI.setUser(data.user || { name: 'Alex Mercer', email });
+          // Navigate to dashboard — works both with server and as file://
+          window.location.href = 'pages/dashboard.html';
+        } else {
+          throw new Error(data.message || 'Login failed.');
+        }
+      } catch (err) {
+        errDiv.textContent = err.message || 'Login failed. Please check credentials.';
+        errDiv.style.display = 'block';
+        btn.textContent = 'Sign In to FinTrack';
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

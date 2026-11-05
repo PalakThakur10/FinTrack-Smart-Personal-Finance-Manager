@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budgets — FINTRACK Personal Finance System</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <div class="sidebar-overlay"></div>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">FT</div>
+        <div class="brand-text">FINTRACK</div>
+        <span class="brand-badge">OOPS</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-label">Main Menu</div>
+        <a href="dashboard.html" class="nav-link"><span>📊</span><span>Dashboard</span></a>
+        <a href="transactions.html" class="nav-link"><span>💳</span><span>Transactions</span></a>
+        <a href="income.html" class="nav-link"><span>📈</span><span>Income</span></a>
+        <a href="expenses.html" class="nav-link"><span>📉</span><span>Expenses</span></a>
+
+        <div class="nav-label">Planning &amp; Goals</div>
+        <a href="budgets.html" class="nav-link active"><span>⚖️</span><span>Budgets</span></a>
+        <a href="savings.html" class="nav-link"><span>🎯</span><span>Savings Goals</span></a>
+
+        <div class="nav-label">Insights &amp; System</div>
+        <a href="analytics.html" class="nav-link"><span>📉</span><span>Analytics</span></a>
+        <a href="reports.html" class="nav-link"><span>📑</span><span>Reports</span></a>
+        <a href="settings.html" class="nav-link"><span>⚙️</span><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="avatar user-avatar-display">A</div>
+          <div class="user-info">
+            <span class="user-name user-name-display">Alex Mercer</span>
+            <span class="user-email user-email-display">demo@fintrack.com</span>
+          </div>
+        </div>
+        <button class="btn-logout" id="logoutBtn" title="Logout"><span>🚪</span></button>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div style="display: flex; align-items: center;">
+          <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+          <div class="page-title-box">
+            <h1>Budget Planning</h1>
+            <p>Define spending limits and prevent overspending with real-time alerts.</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn btn-primary" id="openAddBudgetBtn">
+            <span>+</span>
+            <span>Create Budget</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- Budget Overview Banner -->
+        <div class="card" style="margin-bottom: 24px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <h2 style="font-size: 1.25rem; font-weight: 800; color: #ffffff;">Monthly Budget Allocation</h2>
+              <p class="text-secondary" style="font-size: 0.85rem;">Dynamic budget tracking synchronized with your actual category spending.</p>
+            </div>
+            <div style="display: flex; gap: 24px;">
+              <div>
+                <div class="text-muted" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Total Allocated</div>
+                <div class="mono" id="totalBudgetedAmount" style="font-size: 1.4rem; font-weight: 800; color: #ffffff;">₹26,000</div>
+              </div>
+              <div>
+                <div class="text-muted" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Total Spent</div>
+                <div class="mono" id="totalBudgetSpentAmount" style="font-size: 1.4rem; font-weight: 800; color: #f87171;">₹17,300</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Budget Cards Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;" id="budgetsContainer">
+          <!-- Populated from C++ backend -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal: Add / Edit Budget -->
+  <div class="modal-overlay" id="budgetModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="budgetModalTitle">Create Budget Limit</h3>
+        <button class="modal-close" id="closeBudgetModal">&times;</button>
+      </div>
+
+      <form id="budgetForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="budgetCategory">Expense Category</label>
+            <select id="budgetCategory" class="form-control" required>
+              <option value="Food">Food &amp; Dining</option>
+              <option value="Transport">Transport &amp; Travel</option>
+              <option value="Shopping">Shopping &amp; Retail</option>
+              <option value="Entertainment">Entertainment &amp; Media</option>
+              <option value="Education">Education &amp; Books</option>
+              <option value="Bills">Bills &amp; Utilities</option>
+              <option value="Health">Health &amp; Wellness</option>
+              <option value="Other">Other Miscellaneous</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="budgetLimit">Monthly Spending Limit (₹)</label>
+            <input type="number" id="budgetLimit" class="form-control" placeholder="e.g. 5000" min="100" step="100" required>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelBudgetBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Budget</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/budgets.js"></script>
+</body>
+</html>
+

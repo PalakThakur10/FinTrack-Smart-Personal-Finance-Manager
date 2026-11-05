@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financial Reports — FINTRACK Personal Finance System</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    @media print {
+      body { background: #ffffff !important; color: #000000 !important; }
+      .sidebar, .top-header, .no-print, .btn, .notification-bell { display: none !important; }
+      .main-wrapper { margin-left: 0 !important; }
+      .card { background: #ffffff !important; border: 1px solid #ccc !important; color: #000000 !important; box-shadow: none !important; }
+      .text-income { color: #059669 !important; }
+      .text-expense { color: #dc2626 !important; }
+      .table-custom th, .table-custom td { color: #000000 !important; border-bottom: 1px solid #e5e7eb !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar-overlay"></div>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">FT</div>
+        <div class="brand-text">FINTRACK</div>
+        <span class="brand-badge">OOPS</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-label">Main Menu</div>
+        <a href="dashboard.html" class="nav-link"><span>📊</span><span>Dashboard</span></a>
+        <a href="transactions.html" class="nav-link"><span>💳</span><span>Transactions</span></a>
+        <a href="income.html" class="nav-link"><span>📈</span><span>Income</span></a>
+        <a href="expenses.html" class="nav-link"><span>📉</span><span>Expenses</span></a>
+
+        <div class="nav-label">Planning &amp; Goals</div>
+        <a href="budgets.html" class="nav-link"><span>⚖️</span><span>Budgets</span></a>
+        <a href="savings.html" class="nav-link"><span>🎯</span><span>Savings Goals</span></a>
+
+        <div class="nav-label">Insights &amp; System</div>
+        <a href="analytics.html" class="nav-link"><span>📉</span><span>Analytics</span></a>
+        <a href="reports.html" class="nav-link active"><span>📑</span><span>Reports</span></a>
+        <a href="settings.html" class="nav-link"><span>⚙️</span><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="avatar user-avatar-display">A</div>
+          <div class="user-info">
+            <span class="user-name user-name-display">Alex Mercer</span>
+            <span class="user-email user-email-display">demo@fintrack.com</span>
+          </div>
+        </div>
+        <button class="btn-logout" id="logoutBtn" title="Logout"><span>🚪</span></button>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div style="display: flex; align-items: center;">
+          <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+          <div class="page-title-box">
+            <h1>Executive Reports</h1>
+            <p>Generate formal periodic financial statements and audit ledgers.</p>
+          </div>
+        </div>
+
+        <div class="header-actions no-print">
+          <button class="btn btn-secondary" id="printReportBtn">
+            <span>🖨️</span>
+            <span>Print / PDF</span>
+          </button>
+          <button class="btn btn-primary" id="generateReportBtn">
+            <span>⚡</span>
+            <span>Generate Report</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- Filter Controls -->
+        <div class="card no-print" style="margin-bottom: 24px; padding: 18px;">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 14px; align-items: flex-end;">
+            <div>
+              <label class="form-label">Report Period</label>
+              <select id="reportPeriod" class="form-control">
+                <option value="monthly">Monthly Statement</option>
+                <option value="quarterly">Quarterly Review</option>
+                <option value="yearly">Annual Financial Report</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">Fiscal Year</label>
+              <select id="reportYear" class="form-control">
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">Month</label>
+              <select id="reportMonth" class="form-control">
+                <option value="11">November</option>
+                <option value="10">October</option>
+                <option value="09">September</option>
+                <option value="08">August</option>
+              </select>
+            </div>
+
+            <div>
+              <button class="btn btn-primary" onclick="loadReport()" style="height: 44px;">
+                Apply Period
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Printable Financial Statement Document -->
+        <div class="card" id="printableReport" style="padding: 32px;">
+          <!-- Statement Header -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid var(--border-color); padding-bottom: 20px; margin-bottom: 28px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                <div style="width: 32px; height: 32px; background: var(--accent-gradient); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; color: #fff;">FT</div>
+                <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff;">FINTRACK STATEMENT</h2>
+              </div>
+              <div class="text-secondary" style="font-size: 0.82rem;">University Mini Project OOPS &amp; MongoDB Architecture</div>
+            </div>
+
+            <div style="text-align: right;">
+              <div class="badge badge-safe" id="reportPeriodDisplay" style="font-size: 0.8rem; margin-bottom: 6px;">MONTHLY STATEMENT</div>
+              <div class="text-muted" style="font-size: 0.75rem;">Account: <span class="user-email-display" style="color: #cbd5e1;">demo@fintrack.com</span></div>
+            </div>
+          </div>
+
+          <!-- Executive Summary Metrics -->
+          <div class="metrics-grid" style="margin-bottom: 28px;">
+            <div class="card metric-card metric-income" style="padding: 16px;">
+              <span class="metric-title" style="font-size: 0.72rem;">Total Inflow</span>
+              <div class="metric-value text-income" id="reportTotalIncome" style="font-size: 1.5rem;">₹75,000</div>
+            </div>
+
+            <div class="card metric-card metric-expense" style="padding: 16px;">
+              <span class="metric-title" style="font-size: 0.72rem;">Total Outflow</span>
+              <div class="metric-value text-expense" id="reportTotalExpenses" style="font-size: 1.5rem;">₹29,320</div>
+            </div>
+
+            <div class="card metric-card metric-balance" style="padding: 16px;">
+              <span class="metric-title" style="font-size: 0.72rem;">Net Retained</span>
+              <div class="metric-value" id="reportNetSavings" style="font-size: 1.5rem;">₹45,680</div>
+            </div>
+
+            <div class="card metric-card metric-savings" style="padding: 16px;">
+              <span class="metric-title" style="font-size: 0.72rem;">Savings Ratio</span>
+              <div class="metric-value" id="reportSavingsRate" style="font-size: 1.5rem;">60.9%</div>
+            </div>
+          </div>
+
+          <!-- Highlight Cards -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 28px;">
+            <div class="card" style="padding: 18px;">
+              <div class="text-muted" style="font-size: 0.78rem; text-transform: uppercase; font-weight: 700; margin-bottom: 4px;">Top Outflow Category</div>
+              <div style="font-weight: 800; font-size: 1.15rem; color: #ffffff;" id="reportTopCategory">Other (₹8,000)</div>
+            </div>
+
+            <div class="card" style="padding: 18px;">
+              <div class="text-muted" style="font-size: 0.78rem; text-transform: uppercase; font-weight: 700; margin-bottom: 4px;">Largest Single Expense</div>
+              <div style="font-weight: 800; font-size: 1.15rem; color: #ffffff;" id="reportLargestExpense">Health Insurance (₹8,000)</div>
+            </div>
+          </div>
+
+          <!-- Advisor Health Assessment Box -->
+          <div class="card" style="margin-bottom: 28px; background: rgba(99, 102, 241, 0.08); border-color: rgba(99, 102, 241, 0.25);">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+              <span style="font-size: 1.2rem;">💡</span>
+              <h4 style="font-size: 0.95rem; font-weight: 800; color: #a5b4fc;">Financial Health Audit &amp; Assessment</h4>
+              <span class="badge badge-income" id="reportHealthScore" style="margin-left: auto;">Grade A+</span>
+            </div>
+            <p class="text-secondary" style="font-size: 0.85rem; line-height: 1.6;" id="reportRecommendation">
+              Outstanding financial discipline! Over 40% of your earnings are retained. Consider allocating extra surplus into long-term index investments or emergency buffers.
+            </p>
+          </div>
+
+          <!-- Category Breakdown Table -->
+          <h3 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 12px;">Category Spending Breakdown</h3>
+          <div class="table-responsive" style="margin-bottom: 32px;">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Amount</th>
+                  <th>Proportion of Expenses</th>
+                </tr>
+              </thead>
+              <tbody id="reportCategoryBody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Detailed Itemized Ledger -->
+          <h3 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 12px;">Period Transactions Audit</h3>
+          <div class="table-responsive">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Category</th>
+                  <th>Type</th>
+                  <th style="text-align: right;">Amount</th>
+                </tr>
+              </thead>
+              <tbody id="reportTransactionsBody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/reports.js"></script>
+</body>
+</html>
+

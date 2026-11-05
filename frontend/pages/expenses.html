@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expenses — FINTRACK Personal Finance System</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="sidebar-overlay"></div>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">FT</div>
+        <div class="brand-text">FINTRACK</div>
+        <span class="brand-badge">OOPS</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-label">Main Menu</div>
+        <a href="dashboard.html" class="nav-link"><span>📊</span><span>Dashboard</span></a>
+        <a href="transactions.html" class="nav-link"><span>💳</span><span>Transactions</span></a>
+        <a href="income.html" class="nav-link"><span>📈</span><span>Income</span></a>
+        <a href="expenses.html" class="nav-link active"><span>📉</span><span>Expenses</span></a>
+
+        <div class="nav-label">Planning &amp; Goals</div>
+        <a href="budgets.html" class="nav-link"><span>⚖️</span><span>Budgets</span></a>
+        <a href="savings.html" class="nav-link"><span>🎯</span><span>Savings Goals</span></a>
+
+        <div class="nav-label">Insights &amp; System</div>
+        <a href="analytics.html" class="nav-link"><span>📉</span><span>Analytics</span></a>
+        <a href="reports.html" class="nav-link"><span>📑</span><span>Reports</span></a>
+        <a href="settings.html" class="nav-link"><span>⚙️</span><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="avatar user-avatar-display">A</div>
+          <div class="user-info">
+            <span class="user-name user-name-display">Alex Mercer</span>
+            <span class="user-email user-email-display">demo@fintrack.com</span>
+          </div>
+        </div>
+        <button class="btn-logout" id="logoutBtn" title="Logout"><span>🚪</span></button>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div style="display: flex; align-items: center;">
+          <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+          <div class="page-title-box">
+            <h1>Expenses Tracker</h1>
+            <p>Categorize, audit, and eliminate leaks in your discretionary spending.</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn btn-primary" id="openAddExpenseBtn">
+            <span>+</span>
+            <span>Add Expense</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- 4 Expense Metrics Cards -->
+        <div class="metrics-grid">
+          <div class="card metric-card metric-expense">
+            <div class="metric-header">
+              <span class="metric-title">Total Outflow</span>
+              <div class="metric-icon icon-expense">💳</div>
+            </div>
+            <div class="metric-value text-expense" id="totalExpensesDisplay">₹29,320</div>
+            <div class="metric-trend text-expense">
+              <span>All recorded spending</span>
+            </div>
+          </div>
+
+          <div class="card metric-card metric-expense">
+            <div class="metric-header">
+              <span class="metric-title">This Month</span>
+              <div class="metric-icon icon-expense">📅</div>
+            </div>
+            <div class="metric-value text-expense" id="thisMonthExpensesDisplay">₹29,320</div>
+            <div class="metric-trend text-muted">
+              <span>November 2026 cycle</span>
+            </div>
+          </div>
+
+          <div class="card metric-card metric-savings">
+            <div class="metric-header">
+              <span class="metric-title">Largest Single Expense</span>
+              <div class="metric-icon icon-savings">⚡</div>
+            </div>
+            <div class="metric-value" id="largestExpenseDisplay">₹8,000</div>
+            <div class="metric-trend text-muted">
+              <span>Health Insurance Premium</span>
+            </div>
+          </div>
+
+          <div class="card metric-card metric-balance">
+            <div class="metric-header">
+              <span class="metric-title">Avg Daily Spending</span>
+              <div class="metric-icon icon-balance">📉</div>
+            </div>
+            <div class="metric-value" id="avgDailyExpensesDisplay">₹977</div>
+            <div class="metric-trend text-muted">
+              <span>Normalized across 30 days</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expense Category Doughnut Chart -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div class="card-title">
+              <span>🍩</span>
+              <span>Category Outflow Analysis</span>
+            </div>
+            <span class="badge badge-warning">All Categories</span>
+          </div>
+          <div style="height: 300px; position: relative;">
+            <canvas id="expenseCategoryChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Expenses Ledger Table -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>📋</span>
+              <span>Expense History</span>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description / Merchant</th>
+                  <th>Category</th>
+                  <th>Payment Method</th>
+                  <th>Amount</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="expensesTableBody">
+                <!-- Dynamically loaded from MongoDB -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal: Add / Edit Expense -->
+  <div class="modal-overlay" id="expenseModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="expenseModalTitle">Log Expense</h3>
+        <button class="modal-close" id="closeExpenseModal">&times;</button>
+      </div>
+
+      <form id="expenseForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="expenseAmount">Amount (₹)</label>
+            <input type="number" id="expenseAmount" class="form-control" placeholder="0.00" step="0.01" min="1" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="expenseCategory">Category</label>
+            <select id="expenseCategory" class="form-control" required>
+              <option value="Food">Food &amp; Dining</option>
+              <option value="Transport">Transport &amp; Fuel</option>
+              <option value="Shopping">Shopping &amp; Gear</option>
+              <option value="Entertainment">Entertainment &amp; Streaming</option>
+              <option value="Education">Education &amp; Training</option>
+              <option value="Bills">Bills &amp; Utilities</option>
+              <option value="Health">Health &amp; Medical</option>
+              <option value="Travel">Travel &amp; Flights</option>
+              <option value="Other">Other Expenses</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="expenseDescription">Description</label>
+            <input type="text" id="expenseDescription" class="form-control" placeholder="e.g. Grocery Supermarket" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="expenseMerchant">Merchant / Store (Optional)</label>
+            <input type="text" id="expenseMerchant" class="form-control" placeholder="e.g. Amazon India or Metro Station">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="expenseDate">Date</label>
+            <input type="date" id="expenseDate" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="expensePaymentMethod">Payment Method</label>
+            <select id="expensePaymentMethod" class="form-control">
+              <option value="UPI">UPI (Google Pay / PhonePe)</option>
+              <option value="Debit Card">Debit Card</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+              <option value="Cash">Cash</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelExpenseBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Expense</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/expenses.js"></script>
+</body>
+</html>
+

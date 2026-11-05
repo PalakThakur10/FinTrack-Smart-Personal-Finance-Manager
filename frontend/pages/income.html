@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Income Management — FINTRACK Personal Finance System</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="sidebar-overlay"></div>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">FT</div>
+        <div class="brand-text">FINTRACK</div>
+        <span class="brand-badge">OOPS</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-label">Main Menu</div>
+        <a href="dashboard.html" class="nav-link"><span>📊</span><span>Dashboard</span></a>
+        <a href="transactions.html" class="nav-link"><span>💳</span><span>Transactions</span></a>
+        <a href="income.html" class="nav-link active"><span>📈</span><span>Income</span></a>
+        <a href="expenses.html" class="nav-link"><span>📉</span><span>Expenses</span></a>
+
+        <div class="nav-label">Planning &amp; Goals</div>
+        <a href="budgets.html" class="nav-link"><span>⚖️</span><span>Budgets</span></a>
+        <a href="savings.html" class="nav-link"><span>🎯</span><span>Savings Goals</span></a>
+
+        <div class="nav-label">Insights &amp; System</div>
+        <a href="analytics.html" class="nav-link"><span>📉</span><span>Analytics</span></a>
+        <a href="reports.html" class="nav-link"><span>📑</span><span>Reports</span></a>
+        <a href="settings.html" class="nav-link"><span>⚙️</span><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="avatar user-avatar-display">A</div>
+          <div class="user-info">
+            <span class="user-name user-name-display">Alex Mercer</span>
+            <span class="user-email user-email-display">demo@fintrack.com</span>
+          </div>
+        </div>
+        <button class="btn-logout" id="logoutBtn" title="Logout"><span>🚪</span></button>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div style="display: flex; align-items: center;">
+          <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+          <div class="page-title-box">
+            <h1>Income Management</h1>
+            <p>Track your salaries, freelance contracts, dividends, and cashflow streams.</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn btn-primary" id="openAddIncomeBtn">
+            <span>+</span>
+            <span>Add Income</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- 3 Income Summary Metric Cards -->
+        <div class="metrics-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="card metric-card metric-income">
+            <div class="metric-header">
+              <span class="metric-title">Total Inflow</span>
+              <div class="metric-icon icon-income">💰</div>
+            </div>
+            <div class="metric-value text-income" id="totalIncomeDisplay">₹75,000</div>
+            <div class="metric-trend text-income">
+              <span>All recorded earnings</span>
+            </div>
+          </div>
+
+          <div class="card metric-card metric-income">
+            <div class="metric-header">
+              <span class="metric-title">This Month</span>
+              <div class="metric-icon icon-income">📅</div>
+            </div>
+            <div class="metric-value text-income" id="thisMonthIncomeDisplay">₹75,000</div>
+            <div class="metric-trend text-income">
+              <span>Current monthly cycle</span>
+            </div>
+          </div>
+
+          <div class="card metric-card metric-savings">
+            <div class="metric-header">
+              <span class="metric-title">Average Monthly Income</span>
+              <div class="metric-icon icon-savings">📈</div>
+            </div>
+            <div class="metric-value" id="avgMonthlyIncomeDisplay">₹75,000</div>
+            <div class="metric-trend text-secondary">
+              <span>Stable cashflow velocity</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Income Stream Breakdown Chart -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div class="card-title">
+              <span>🍰</span>
+              <span>Income Sources Distribution</span>
+            </div>
+            <span class="badge badge-income">By Category</span>
+          </div>
+          <div style="height: 280px; position: relative;">
+            <canvas id="incomeSourceChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Income Ledger Table -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>📑</span>
+              <span>Income Entries</span>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description / Channel</th>
+                  <th>Source Category</th>
+                  <th>Amount</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="incomeTableBody">
+                <!-- Dynamically populated from C++ backend -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal: Add / Edit Income -->
+  <div class="modal-overlay" id="incomeModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="incomeModalTitle">Record Income</h3>
+        <button class="modal-close" id="closeIncomeModal">&times;</button>
+      </div>
+
+      <form id="incomeForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="incomeAmount">Amount (₹)</label>
+            <input type="number" id="incomeAmount" class="form-control" placeholder="0.00" step="0.01" min="1" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="incomeSource">Income Source</label>
+            <select id="incomeSource" class="form-control" required>
+              <option value="Salary">Salary &amp; Regular Employment</option>
+              <option value="Freelance">Freelance &amp; Consulting</option>
+              <option value="Business">Business Revenue</option>
+              <option value="Scholarship">Scholarship &amp; Grants</option>
+              <option value="Investment">Investment &amp; Dividends</option>
+              <option value="Other">Other Inflow</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="incomeDescription">Description / Note</label>
+            <input type="text" id="incomeDescription" class="form-control" placeholder="e.g. November Software Salary" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="incomeDate">Date Received</label>
+            <input type="date" id="incomeDate" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="incomePaymentMethod">Receiving Channel</label>
+            <select id="incomePaymentMethod" class="form-control">
+              <option value="Bank Transfer">Bank Transfer / IMPS / NEFT</option>
+              <option value="UPI">UPI Direct</option>
+              <option value="Cash">Cash Deposit</option>
+              <option value="Cheque">Cheque</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelIncomeBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Income</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/income.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transactions — FINTRACK Personal Finance System</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <div class="sidebar-overlay"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">FT</div>
+        <div>
+          <div class="brand-text">FINTRACK</div>
+        </div>
+        <span class="brand-badge">OOPS</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-label">Main Menu</div>
+        <a href="dashboard.html" class="nav-link">
+          <span>📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="transactions.html" class="nav-link active">
+          <span>💳</span>
+          <span>Transactions</span>
+        </a>
+        <a href="income.html" class="nav-link">
+          <span>📈</span>
+          <span>Income</span>
+        </a>
+        <a href="expenses.html" class="nav-link">
+          <span>📉</span>
+          <span>Expenses</span>
+        </a>
+
+        <div class="nav-label">Planning &amp; Goals</div>
+        <a href="budgets.html" class="nav-link">
+          <span>⚖️</span>
+          <span>Budgets</span>
+        </a>
+        <a href="savings.html" class="nav-link">
+          <span>🎯</span>
+          <span>Savings Goals</span>
+        </a>
+
+        <div class="nav-label">Insights &amp; System</div>
+        <a href="analytics.html" class="nav-link">
+          <span>📉</span>
+          <span>Analytics</span>
+        </a>
+        <a href="reports.html" class="nav-link">
+          <span>📑</span>
+          <span>Reports</span>
+        </a>
+        <a href="settings.html" class="nav-link">
+          <span>⚙️</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="avatar user-avatar-display">A</div>
+          <div class="user-info">
+            <span class="user-name user-name-display">Alex Mercer</span>
+            <span class="user-email user-email-display">demo@fintrack.com</span>
+          </div>
+        </div>
+        <button class="btn-logout" id="logoutBtn" title="Logout">
+          <span>🚪</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Top Header -->
+      <header class="top-header">
+        <div style="display: flex; align-items: center;">
+          <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+          <div class="page-title-box">
+            <h1>Transactions</h1>
+            <p>Manage, search, and audit your complete financial ledger.</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn btn-primary" id="openAddTransactionBtn">
+            <span>+</span>
+            <span>Add Transaction</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <main class="content-area">
+        <!-- Search & Filter Control Bar -->
+        <div class="card" style="margin-bottom: 24px; padding: 20px;">
+          <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 14px; align-items: flex-end;">
+            <div>
+              <label class="form-label">Search Transactions</label>
+              <input type="text" id="searchTransactions" class="form-control" placeholder="Search by merchant, title, or tags...">
+            </div>
+
+            <div>
+              <label class="form-label">Type</label>
+              <select id="filterType" class="form-control">
+                <option value="all">All Types</option>
+                <option value="income">Income Only</option>
+                <option value="expense">Expense Only</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">Category</label>
+              <select id="filterCategory" class="form-control">
+                <option value="all">All Categories</option>
+                <option value="Salary">Salary</option>
+                <option value="Freelance">Freelance</option>
+                <option value="Food">Food &amp; Dining</option>
+                <option value="Transport">Transport</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Education">Education</option>
+                <option value="Bills">Bills &amp; Utilities</option>
+                <option value="Health">Health</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">Start Date</label>
+              <input type="date" id="filterStartDate" class="form-control">
+            </div>
+
+            <div>
+              <button class="btn btn-secondary" id="clearFiltersBtn" title="Reset Filters" style="height: 44px;">
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transactions Table Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>💳</span>
+              <span>Transaction Ledger</span>
+            </div>
+            <span class="badge badge-safe" id="transactionCount">Loading records...</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description / Payment</th>
+                  <th>Category</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="transactionsTableBody">
+                <!-- Dynamically loaded from MongoDB -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal: Add / Edit Transaction -->
+  <div class="modal-overlay" id="transactionModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Record Transaction</h3>
+        <button class="modal-close" id="closeTxModal">&times;</button>
+      </div>
+
+      <form id="transactionForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="txType">Transaction Type</label>
+            <select id="txType" class="form-control" required>
+              <option value="expense">Expense (Outflow)</option>
+              <option value="income">Income (Inflow)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="txAmount">Amount (₹)</label>
+            <input type="number" id="txAmount" class="form-control" placeholder="0.00" step="0.01" min="1" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="txCategory">Category</label>
+            <select id="txCategory" class="form-control" required>
+              <option value="Food">Food &amp; Dining</option>
+              <option value="Transport">Transport &amp; Travel</option>
+              <option value="Shopping">Shopping &amp; Retail</option>
+              <option value="Entertainment">Entertainment &amp; Media</option>
+              <option value="Education">Education &amp; Books</option>
+              <option value="Bills">Bills &amp; Utilities</option>
+              <option value="Health">Health &amp; Wellness</option>
+              <option value="Salary">Salary &amp; Wages</option>
+              <option value="Freelance">Freelance &amp; Consulting</option>
+              <option value="Investment">Investment &amp; Dividends</option>
+              <option value="Other">Other Miscellaneous</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="txDescription">Description / Title</label>
+            <input type="text" id="txDescription" class="form-control" placeholder="e.g. Grocery Shopping or Freelance Client" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="txDate">Transaction Date</label>
+            <input type="date" id="txDate" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="txPaymentMethod">Payment Method</label>
+            <select id="txPaymentMethod" class="form-control">
+              <option value="UPI">UPI (Google Pay / PhonePe / Paytm)</option>
+              <option value="Debit Card">Debit Card</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Bank Transfer">Bank Transfer / IMPS / NEFT</option>
+              <option value="Cash">Cash</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelTxBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveTxBtn">Save Transaction</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/transactions.js"></script>
+</body>
+</html>
+

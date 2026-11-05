@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — FINTRACK Personal Finance System</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <div class="sidebar-overlay"></div>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">FT</div>
+        <div class="brand-text">FINTRACK</div>
+        <span class="brand-badge">OOPS</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-label">Main Menu</div>
+        <a href="dashboard.html" class="nav-link"><span>📊</span><span>Dashboard</span></a>
+        <a href="transactions.html" class="nav-link"><span>💳</span><span>Transactions</span></a>
+        <a href="income.html" class="nav-link"><span>📈</span><span>Income</span></a>
+        <a href="expenses.html" class="nav-link"><span>📉</span><span>Expenses</span></a>
+
+        <div class="nav-label">Planning &amp; Goals</div>
+        <a href="budgets.html" class="nav-link"><span>⚖️</span><span>Budgets</span></a>
+        <a href="savings.html" class="nav-link"><span>🎯</span><span>Savings Goals</span></a>
+
+        <div class="nav-label">Insights &amp; System</div>
+        <a href="analytics.html" class="nav-link"><span>📉</span><span>Analytics</span></a>
+        <a href="reports.html" class="nav-link"><span>📑</span><span>Reports</span></a>
+        <a href="settings.html" class="nav-link active"><span>⚙️</span><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="avatar user-avatar-display">A</div>
+          <div class="user-info">
+            <span class="user-name user-name-display">Alex Mercer</span>
+            <span class="user-email user-email-display">demo@fintrack.com</span>
+          </div>
+        </div>
+        <button class="btn-logout" id="logoutBtn" title="Logout"><span>🚪</span></button>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div style="display: flex; align-items: center;">
+          <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+          <div class="page-title-box">
+            <h1>System Settings</h1>
+            <p>Account preferences, data management, and OOPS system diagnostics.</p>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-area" style="max-width: 900px;">
+        <!-- User Profile Settings Card -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div class="card-title">
+              <span>👤</span>
+              <span>User Profile Details</span>
+            </div>
+            <span class="badge badge-safe">Active Session</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" class="form-control user-name-display" value="Alex Mercer" readonly>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-control user-email-display" value="demo@fintrack.com" readonly>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Account Currency</label>
+              <select class="form-control">
+                <option value="INR" selected>Indian Rupee (₹ INR)</option>
+                <option value="USD">US Dollar ($ USD)</option>
+                <option value="EUR">Euro (€ EUR)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Account ID</label>
+              <input type="text" class="form-control mono" value="65e8a1f2b3c4d5e6f7a8b901" readonly>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Demo & Database Management Card -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div class="card-title">
+              <span>🗄️</span>
+              <span>Project Demo &amp; MongoDB Management</span>
+            </div>
+            <span class="badge badge-warning">Testing Tools</span>
+          </div>
+
+          <p class="text-secondary" style="font-size: 0.88rem; margin-bottom: 18px;">
+            Use these controls during your viva presentation to restore the baseline sample data (₹45,680 Balance, ₹75,000 Income, ₹29,320 Expenses) or export your complete ledger.
+          </p>
+
+          <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+            <button class="btn btn-secondary" id="resetDemoDataBtn">
+              <span>🔄</span>
+              <span>Reset Baseline Demo Data</span>
+            </button>
+
+            <button class="btn btn-secondary" id="exportDataBtn">
+              <span>📥</span>
+              <span>Export Ledger JSON</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- OOPS Architectural Concepts Card (Viva Ready) -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>🏛️</span>
+              <span>Implemented C++ OOPS Architecture</span>
+            </div>
+            <span class="badge badge-safe">Viva Reference</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.88rem;">
+            <div style="padding: 10px 14px; background: rgba(15, 23, 42, 0.4); border-radius: 8px; border: 1px solid var(--border-color);">
+              <strong style="color: #a5b4fc;">Abstraction &amp; Pure Virtual Functions:</strong>
+              <div class="text-secondary">Base class <code style="color: #cbd5e1;">Transaction</code> with pure virtual methods <code style="color: #cbd5e1;">virtual double calculateImpact() = 0;</code> and <code style="color: #cbd5e1;">virtual void display() = 0;</code>.</div>
+            </div>
+
+            <div style="padding: 10px 14px; background: rgba(15, 23, 42, 0.4); border-radius: 8px; border: 1px solid var(--border-color);">
+              <strong style="color: #a5b4fc;">Inheritance &amp; Method Overriding:</strong>
+              <div class="text-secondary"><code style="color: #cbd5e1;">class Income : public Transaction</code> and <code style="color: #cbd5e1;">class Expense : public Transaction</code> override <code style="color: #cbd5e1;">calculateImpact()</code> (+amount for Income, -amount for Expense).</div>
+            </div>
+
+            <div style="padding: 10px 14px; background: rgba(15, 23, 42, 0.4); border-radius: 8px; border: 1px solid var(--border-color);">
+              <strong style="color: #a5b4fc;">Dynamic Polymorphism:</strong>
+              <div class="text-secondary"><code style="color: #cbd5e1;">FinanceManager</code> processes polymorphic vectors <code style="color: #cbd5e1;">std::vector&lt;std::shared_ptr&lt;Transaction&gt;&gt;</code> computing net balance polymorphically at runtime.</div>
+            </div>
+
+            <div style="padding: 10px 14px; background: rgba(15, 23, 42, 0.4); border-radius: 8px; border: 1px solid var(--border-color);">
+              <strong style="color: #a5b4fc;">Encapsulation &amp; Validation:</strong>
+              <div class="text-secondary">Protected and private fields with strict accessor methods enforcing domain constraints (amounts > 0, valid dates, hashed passwords).</div>
+            </div>
+
+            <div style="padding: 10px 14px; background: rgba(15, 23, 42, 0.4); border-radius: 8px; border: 1px solid var(--border-color);">
+              <strong style="color: #a5b4fc;">Function Overloading:</strong>
+              <div class="text-secondary">Multiple overloaded implementations of <code style="color: #cbd5e1;">getTransactions()</code> and constructors across models and services.</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      FinTrackAuth.checkAuth(true);
+
+      const resetBtn = document.getElementById('resetDemoDataBtn');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', async () => {
+          if (!confirm('Reset all demo data back to baseline?')) return;
+          try {
+            await FinTrackAPI.post('/api/demo/reset');
+            FinTrackAPI.showToast('Demo data restored to initial state!', 'success');
+          } catch (err) {
+            FinTrackAPI.showToast('Failed to reset demo data.', 'error');
+          }
+        });
+      }
+
+      const exportBtn = document.getElementById('exportDataBtn');
+      if (exportBtn) {
+        exportBtn.addEventListener('click', async () => {
+          try {
+            const data = await FinTrackAPI.get('/api/transactions');
+            const blob = new Blob([JSON.stringify(data.transactions, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `fintrack_export_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            FinTrackAPI.showToast('Ledger exported successfully!', 'success');
+          } catch (err) {
+            FinTrackAPI.showToast('Export failed.', 'error');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
+
